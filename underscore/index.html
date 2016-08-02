@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Underscore</title>
+    <script src="underscore-min.js"></script>
+</head>
+<body>
+
+    <div id="result"></div>
+
+    <script>
+
+        //-----------------------------------------------------------------------------
+        //-----------------------------------------------------------------------------
+        //
+        // Underscore allow us to write some code in a much readable way
+        //
+        //-----------------------------------------------------------------------------
+        //-----------------------------------------------------------------------------
+
+        function display(str) {
+            document.getElementById('result').innerHTML += "<br/>" + str;
+        }
+
+        //-----------------------------------------------------------------------------
+        //-----------------------------------------------------------------------------
+        //
+        // _.select(array, function)
+        //
+        //-----------------------------------------------------------------------------
+        //-----------------------------------------------------------------------------
+
+        //-- version classique
+        function topScoresV1(){
+            var scores = [84, 99, 91, 65, 87, 55, 72, 68, 95, 42],
+                    topScorers = [], scoreLimit = 90;
+
+            for (i=0; i<=scores.length; i++)
+            {
+                if (scores[i]>scoreLimit)
+                {
+                    topScorers.push(scores[i]);
+                }
+            }
+            return topScorers;
+        }
+        display(topScoresV1());
+
+        //-- version avec Underscore
+        function topScoresV2(){
+            var scores = [84, 99, 91, 65, 87, 55, 72, 68, 95, 42],
+                    topScorers = [], scoreLimit = 90;
+
+            topScorers = _.select(scores, function(score){ return score > scoreLimit;});
+            return topScorers;
+        }
+        display(topScoresV2());
+
+
+
+        //-----------------------------------------------------------------------------
+        //-----------------------------------------------------------------------------
+        // _.Chain
+        //-----------------------------------------------------------------------------
+        //-----------------------------------------------------------------------------
+
+        /* Without Underscore.js */
+        function capAndJoinWords1(aryOfWords) {
+            var result = [];
+
+            if (aryOfWords.length) {
+                for (i = aryOfWords.length - 1; i >= 0; i--) {
+                    result.push((aryOfWords[i] + '123').toUpperCase());
+                }
+            }
+            return result.join(' ');
+        }
+
+        /* With Underscore.js
+        *  The method is far more readable
+        * */
+        function capAndJoinWords2(aryOfWords) {
+            return _.chain(aryOfWords)
+                    .map(function(item) { return item + '123'; })
+                    .map(function(item) { return item.toUpperCase(); })
+                    .reverse()
+                    .value()
+                    .join(' ');
+        }
+
+        var array1 = ['array', 'this', 'in', 'are', 'words', 'test'];
+        display(array1);
+
+        array1 = capAndJoinWords1(array1);
+        display(array1);
+
+        //-----------------------------------------------------------------------------
+        //-----------------------------------------------------------------------------
+        // Boolean optional parameters
+        //-----------------------------------------------------------------------------
+        //-----------------------------------------------------------------------------
+
+        // in javascript : Things are never really false, they're "falsy"
+        if(!false) display('false is false');
+        if(!NaN) display('NaN is false');
+        if(!0) display('0 is false');
+        if(!"") display('"" is false');
+        if(!null) display('null is false');
+        if(!undefined) display('undefined is false');
+
+        /*
+         Version sans Underscore.js
+         */
+        function doAThing1(boolArg) {
+            if (boolArg != undefined && !boolArg) {
+                display('doAThing1 : entered the if');
+            }
+        }
+
+        function doAThing2(boolArg) {
+            if (!_.isUndefined(boolArg) && !boolArg) {
+                display('doAThing2 : entered the if');
+            }
+        }
+
+        //-----------------------------------------------------------------------------
+        // _.reduce(array, function(memo, num){}, memo-start-value);
+        // sum all the values of the array
+        //-----------------------------------------------------------------------------
+        display(_.reduce([1, 2, 3, 4], function(memo, num){ return memo + num; }, 0));
+
+        //-----------------------------------------------------------------------------
+        //
+        //
+        //-----------------------------------------------------------------------------
+        var list = [[0, 1], [2, 3], [4, 5]];
+        var flat = _.reduceRight(list, function(a, b) { return a.concat(b); }, []);
+        display(flat); //4,5,2,3,0,1
+
+
+        //-- contact 2 arrays into a single one
+        var alpha = ["a", "b", "c"];
+        var numerique = [1, 2, 3];
+        var alphanumerique = alpha.concat(numerique);
+        display(alphanumerique);
+
+
+
+    </script>
+</body>
+</html>
