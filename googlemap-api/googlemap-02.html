@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- optional : you can pass the API KEY like that : ... api/js?key=YOUR_KEY
+       If you plan for heavier traffic, you should get a free API key from Google -->
+  <script src="http://maps.googleapis.com/maps/api/js"></script>
+  <script>
+      //-- define my center point
+      var myCenter=new google.maps.LatLng(51.508742,-0.120850);
+      var myCenter2 = new google.maps.LatLng(51.508742,-0.120000);
+
+      function initialize()
+      {
+        //-- set different properties
+        var mapProp = {
+          center:myCenter,
+          zoom:15,
+          mapTypeId:google.maps.MapTypeId.ROADMAP
+        };
+
+        //-- create the map object
+        //you have to choose the ID of html element will host the map and the property object 'mapProp'
+        var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+
+        //---------------------------------------------------------
+        //-- create a marker (with a bounce animation)
+        //---------------------------------------------------------
+        var marker1=new google.maps.Marker({
+          position:myCenter,
+          // optional : to make the marker bounce
+          animation:google.maps.Animation.BOUNCE,
+          icon:'pinkball.png'
+          });
+        marker1.setMap(map);
+
+        //---------------------------------------------------------
+        //-- add a second marker
+        //---------------------------------------------------------
+        var marker2 = new google.maps.Marker({
+          position:myCenter2,
+        });
+        marker2.setMap(map);
+
+        //---------------------------------------------------------
+        //-- add an InfoWindow to the marker
+        //---------------------------------------------------------
+        var infowindow = new google.maps.InfoWindow({
+          content:"Hello World!"
+          });
+        infowindow.open(map,marker2);
+
+      }
+
+      //-- asynchronosly loading
+      //when the window is loaded, it triggers the initiliaz function
+      google.maps.event.addDomListener(window, 'load', initialize);
+  </script>
+</head>
+
+<body>
+  <div id="googleMap" style="width:500px;height:500px;">
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- optional : you can pass the API KEY like that : ... api/js?key=YOUR_KEY
+       If you plan for heavier traffic, you should get a free API key from Google -->
+  <script src="http://maps.googleapis.com/maps/api/js"></script>
+  <script>
+      //-- define my center point
+      var myCenter=new google.maps.LatLng(51.508742,-0.120850);
+      var myCenter2 = new google.maps.LatLng(51.508742,-0.120000);
+
+      function initialize()
+      {
+        // Create an array of styles.
+         var styles = [
+           {
+             stylers: [
+               { hue: "#00ffe6" },
+               { saturation: -20 }
+             ]
+           },{
+             featureType: "road",
+             elementType: "geometry",
+             stylers: [
+               { lightness: 100 },
+               { visibility: "simplified" }
+             ]
+           },{
+             featureType: "road",
+             elementType: "labels",
+             stylers: [
+               { visibility: "off" }
+             ]
+           }
+         ];
+
+         // Create a new StyledMapType object, passing it the array of styles,
+         // as well as the name to be displayed on the map type control.
+         var styledMap = new google.maps.StyledMapType(styles,
+           {name: "Styled Map"});
+
+        //-- set different properties
+        var mapProp = {
+          center:myCenter,
+          zoom:15,
+          mapTypeId:google.maps.MapTypeId.ROADMAP
+        };
+
+        //-- create the map object
+        //you have to choose the ID of html element will host the map and the property object 'mapProp'
+        var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+
+        //Associate the styled map with the MapTypeId and set it to display
+        map.mapTypes.set('map_style', styledMap);
+        map.setMapTypeId('map_style');
+      }
+
+      //-- asynchronosly loading
+      //when the window is loaded, it triggers the initiliaz function
+      google.maps.event.addDomListener(window, 'load', initialize);
+  </script>
+</head>
+
+<body>
+  <div id="googleMap" style="width:500px;height:500px;">
+  </div>
+</body>
+
+</html>
